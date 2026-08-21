@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         await navigator.clipboard.writeText(shareUrl);
       } else {
         window.prompt("Copy this activity link:", shareUrl);
-        showMessage(`Share link ready for ${activityName}.`, "info");
+        showMessage("Please copy the link from the dialog to share it.", "info");
         return;
       }
 
@@ -100,15 +100,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function handleShare(activityName, details, shareType) {
-    const shareUrl = getSharedActivityUrl(activityName);
-    const shareMessage = buildShareMessage(activityName, details);
-
     if (shareType === "copy") {
       await copyShareLink(activityName);
       return;
     }
 
     if (shareType === "email") {
+      const shareUrl = getSharedActivityUrl(activityName);
+      const shareMessage = buildShareMessage(activityName, details);
       const subject = `Check out ${activityName}`;
       const body = `${shareMessage}\n\n${shareUrl}`;
       window.location.href = `mailto:?subject=${encodeURIComponent(
@@ -118,6 +117,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (shareType === "whatsapp") {
+      const shareUrl = getSharedActivityUrl(activityName);
+      const shareMessage = buildShareMessage(activityName, details);
       openShareWindow(
         `https://wa.me/?text=${encodeURIComponent(`${shareMessage} ${shareUrl}`)}`
       );
@@ -640,13 +641,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const shareActions = `
       <div class="share-actions">
         <span class="share-label">Share:</span>
-        <button class="share-button" data-share-type="copy" data-activity="${safeActivityName}">
+        <button type="button" class="share-button" data-share-type="copy" data-activity="${safeActivityName}">
           Copy Link
         </button>
-        <button class="share-button" data-share-type="email" data-activity="${safeActivityName}">
+        <button type="button" class="share-button" data-share-type="email" data-activity="${safeActivityName}">
           Email
         </button>
-        <button class="share-button" data-share-type="whatsapp" data-activity="${safeActivityName}">
+        <button type="button" class="share-button" data-share-type="whatsapp" data-activity="${safeActivityName}">
           WhatsApp
         </button>
       </div>
