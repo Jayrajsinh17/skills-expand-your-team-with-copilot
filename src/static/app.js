@@ -83,12 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareUrl);
       } else {
-        const tempInput = document.createElement("input");
-        tempInput.value = shareUrl;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
+        window.prompt("Copy this activity link:", shareUrl);
+        showMessage(`Share link ready for ${activityName}.`, "info");
+        return;
       }
 
       showMessage(`Link copied for ${activityName}.`, "success");
@@ -663,15 +660,13 @@ document.addEventListener("DOMContentLoaded", () => {
         <ul>
           ${details.participants
             .map(
-              (email) => `
+              (email, index) => `
             <li>
               ${escapeHtml(email)}
               ${
                 currentUser
                   ? `
-                <span class="delete-participant tooltip" data-activity="${safeActivityName}" data-email="${escapeHtml(
-                      email
-                    )}">
+                <span class="delete-participant tooltip" data-participant-index="${index}">
                   ✖
                   <span class="tooltip-text">Unregister this student</span>
                 </span>
@@ -706,6 +701,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add click handlers for delete buttons
     const deleteButtons = activityCard.querySelectorAll(".delete-participant");
     deleteButtons.forEach((button) => {
+      const participantIndex = Number(button.dataset.participantIndex);
+      button.dataset.activity = name;
+      button.dataset.email = details.participants[participantIndex];
       button.addEventListener("click", handleUnregister);
     });
 
@@ -719,6 +717,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add click handler for register button (only when authenticated)
     if (currentUser) {
       const registerButton = activityCard.querySelector(".register-button");
+      registerButton.dataset.activity = name;
       if (!isFull) {
         registerButton.addEventListener("click", () => {
           openRegistrationModal(name);
