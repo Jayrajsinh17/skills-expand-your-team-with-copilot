@@ -674,7 +674,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ${
                 currentUser
                   ? `
-                <span class="delete-participant tooltip" data-activity="${safeActivityName}" data-email="${escapeHtml(
+                <span class="delete-participant tooltip" data-email="${escapeHtml(
                       email
                     )}">
                   ✖
@@ -711,6 +711,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add click handlers for delete buttons
     const deleteButtons = activityCard.querySelectorAll(".delete-participant");
     deleteButtons.forEach((button) => {
+      button.dataset.activity = name;
       button.addEventListener("click", handleUnregister);
     });
 
@@ -724,6 +725,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add click handler for register button (only when authenticated)
     if (currentUser) {
       const registerButton = activityCard.querySelector(".register-button");
+      registerButton.dataset.activity = name;
       if (!isFull) {
         registerButton.addEventListener("click", () => {
           openRegistrationModal(name);
