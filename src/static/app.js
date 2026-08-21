@@ -684,9 +684,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ${
                 currentUser
                   ? `
-                <span class="delete-participant tooltip" data-activity="${safeActivityName}" data-email="${escapeHtml(
-                      email
-                    )}">
+                <span class="delete-participant tooltip" data-activity="${safeActivityName}">
                   ✖
                   <span class="tooltip-text">Unregister this student</span>
                 </span>
@@ -722,6 +720,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteButtons = activityCard.querySelectorAll(".delete-participant");
     deleteButtons.forEach((button) => {
       button.dataset.activity = name;
+      button.dataset.email = button.parentElement.firstChild.textContent.trim();
       button.addEventListener("click", handleUnregister);
     });
 
