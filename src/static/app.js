@@ -570,9 +570,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (highlightedActivityCard && !hasFocusedSharedActivity) {
       hasFocusedSharedActivity = true;
-      highlightedActivityCard.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
+      requestAnimationFrame(() => {
+        highlightedActivityCard.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
       });
     }
   }
@@ -660,13 +662,15 @@ document.addEventListener("DOMContentLoaded", () => {
         <ul>
           ${details.participants
             .map(
-              (email, index) => `
+              (email) => `
             <li>
               ${escapeHtml(email)}
               ${
                 currentUser
                   ? `
-                <span class="delete-participant tooltip" data-participant-index="${index}">
+                <span class="delete-participant tooltip" data-activity="${safeActivityName}" data-email="${escapeHtml(
+                      email
+                    )}">
                   ✖
                   <span class="tooltip-text">Unregister this student</span>
                 </span>
@@ -701,9 +705,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add click handlers for delete buttons
     const deleteButtons = activityCard.querySelectorAll(".delete-participant");
     deleteButtons.forEach((button) => {
-      const participantIndex = Number(button.dataset.participantIndex);
-      button.dataset.activity = name;
-      button.dataset.email = details.participants[participantIndex];
       button.addEventListener("click", handleUnregister);
     });
 
@@ -717,7 +718,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add click handler for register button (only when authenticated)
     if (currentUser) {
       const registerButton = activityCard.querySelector(".register-button");
-      registerButton.dataset.activity = name;
       if (!isFull) {
         registerButton.addEventListener("click", () => {
           openRegistrationModal(name);
