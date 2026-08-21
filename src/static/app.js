@@ -121,7 +121,11 @@ document.addEventListener("DOMContentLoaded", () => {
       openShareWindow(
         `https://wa.me/?text=${encodeURIComponent(`${shareMessage} ${shareUrl}`)}`
       );
+      return;
     }
+
+    console.warn("Unknown share option selected:", shareType);
+    showMessage("That sharing option is not available right now.", "error");
   }
 
   function initializeSharedActivity() {
@@ -133,9 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    sharedActivityName = activityFromUrl.trim().toLowerCase();
-    searchQuery = activityFromUrl.trim();
-    searchInput.value = activityFromUrl.trim();
+    const trimmedActivityName = activityFromUrl.trim();
+    sharedActivityName = trimmedActivityName.toLowerCase();
+    searchQuery = trimmedActivityName;
+    searchInput.value = trimmedActivityName;
   }
 
   // Initialize filters from active elements
