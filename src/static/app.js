@@ -649,12 +649,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add event listeners to difficulty filter buttons
   difficultyFilters.forEach((button) => {
     button.addEventListener("click", () => {
-      const nextDifficulty =
-        currentDifficulty === button.dataset.difficulty
-          ? ""
-          : button.dataset.difficulty;
-
-      setDifficultyFilter(nextDifficulty);
+      setDifficultyFilter(button.dataset.difficulty);
     });
   });
 
