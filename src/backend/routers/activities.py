@@ -30,7 +30,7 @@ def get_activities(
     - difficulty_level: Filter for a difficulty track. When the value is 'All',
       only activities without a difficulty level are returned. For a specific level,
       activities tagged for that level plus activities without a difficulty level
-      are returned.
+      are returned. If this value is omitted or empty, all activities are returned.
     """
     # Build the query based on provided filters
     query = {}
