@@ -31,12 +31,14 @@ def init_database():
                 activities_collection.update_one(
                     {
                         "_id": name,
-                        "$or": [
-                            {"difficulty_level": {"$exists": False}},
-                            {"difficulty_level": {"$ne": difficulty_level}}
-                        ]
+                        "difficulty_level": {"$ne": difficulty_level}
                     },
                     {"$set": {"difficulty_level": difficulty_level}}
+                )
+            else:
+                activities_collection.update_one(
+                    {"_id": name, "difficulty_level": {"$exists": True}},
+                    {"$unset": {"difficulty_level": ""}}
                 )
             
     # Initialize teacher accounts if empty

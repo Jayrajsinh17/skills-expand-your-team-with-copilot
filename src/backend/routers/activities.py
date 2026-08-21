@@ -22,7 +22,8 @@ def get_activities(
     difficulty_level: Optional[str] = None
 ) -> Dict[str, Any]:
     """
-    Get all activities with their details, with optional filtering by day and time
+    Get all activities with their details, with optional filtering by day, time,
+    and difficulty level
     
     - day: Filter activities occurring on this day (e.g., 'Monday', 'Tuesday')
     - start_time: Filter activities starting at or after this time (24-hour format, e.g., '14:30')
