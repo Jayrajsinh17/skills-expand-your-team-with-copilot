@@ -27,9 +27,10 @@ def get_activities(
     - day: Filter activities occurring on this day (e.g., 'Monday', 'Tuesday')
     - start_time: Filter activities starting at or after this time (24-hour format, e.g., '14:30')
     - end_time: Filter activities ending at or before this time (24-hour format, e.g., '17:00')
-    - difficulty_level: Filter for a difficulty track. Activities without a difficulty
-      level are returned for every specific track, and are returned exclusively when
-      the value is 'All'.
+    - difficulty_level: Filter for a difficulty track. When the value is 'All',
+      only activities without a difficulty level are returned. For a specific level,
+      activities tagged for that level plus activities without a difficulty level
+      are returned.
     """
     # Build the query based on provided filters
     query = {}
