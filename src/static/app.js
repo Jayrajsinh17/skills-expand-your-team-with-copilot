@@ -144,6 +144,16 @@ document.addEventListener("DOMContentLoaded", () => {
     searchInput.value = trimmedActivityName;
   }
 
+  function updateSearchQuery(value) {
+    searchQuery = value;
+
+    if (value.trim().toLowerCase() !== sharedActivityName) {
+      sharedActivityName = "";
+    }
+
+    displayFilteredActivities();
+  }
+
   // Initialize filters from active elements
   function initializeFilters() {
     // Initialize day filter
@@ -674,7 +684,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ${
                 currentUser
                   ? `
-                <span class="delete-participant tooltip" data-email="${escapeHtml(
+                <span class="delete-participant tooltip" data-activity="${safeActivityName}" data-email="${escapeHtml(
                       email
                     )}">
                   ✖
@@ -739,14 +749,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Event listeners for search and filter
   searchInput.addEventListener("input", (event) => {
-    searchQuery = event.target.value;
-    displayFilteredActivities();
+    updateSearchQuery(event.target.value);
   });
 
   searchButton.addEventListener("click", (event) => {
     event.preventDefault();
-    searchQuery = searchInput.value;
-    displayFilteredActivities();
+    updateSearchQuery(searchInput.value);
   });
 
   // Add event listeners to category filter buttons
